@@ -1,5 +1,5 @@
-import recommendationService from './recommendation.service';
-import mockProducts from '../mocks/mockProducts';
+import recommendationService from './recommendation.service.js';
+import mockProducts from '../mocks/mockProducts.js';
 
 describe('recommendationService', () => {
   test('Retorna recomendação correta para SingleProduct com base nas preferências selecionadas', () => {
@@ -68,7 +68,11 @@ describe('recommendationService', () => {
 
   test('Retorna o último match em caso de empate para SingleProduct', () => {
     const formData = {
-      selectedPreferences: ['Automação de marketing', 'Integração com chatbots'],
+      selectedPreferences: [
+        'Automação de marketing',
+        'Integração com chatbots',
+      ],
+      selectedFeatures: [],
       selectedRecommendationType: 'SingleProduct',
     };
 
