@@ -1,16 +1,21 @@
-// useRecommendations.js
-
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import recommendationService from '../services/recommendation.service';
 
 function useRecommendations(products) {
   const [recommendations, setRecommendations] = useState([]);
 
-  const getRecommendations = (formData) => {
-    return recommendationService.getRecommendations(formData, products);
-  };
+  const handleGetRecommendations = useCallback(
+    (formData) => {
+      const response = recommendationService.getRecommendations(
+        formData,
+        products
+      );
+      setRecommendations(response);
+    },
+    [products]
+  );
 
-  return { recommendations, getRecommendations, setRecommendations };
+  return { recommendations, handleGetRecommendations };
 }
 
 export default useRecommendations;
