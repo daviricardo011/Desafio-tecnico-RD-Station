@@ -1,15 +1,15 @@
-import recommendationService from './recommendation.service.js';
+import { RecommendationService } from './recommendation.service.js';
 import { mockProducts } from '../mocks/mockProducts.js';
 
-describe('recommendationService', () => {
-  test('Retorna recomendação correta para SingleProduct com base nas preferências selecionadas', () => {
+describe('RecommendationService', () => {
+  test('Retorna recomendação correta para SingleProduct com base nas preferências selecionadas', async () => {
     const formData = {
       selectedPreferences: ['Integração com chatbots'],
       selectedFeatures: ['Chat ao vivo e mensagens automatizadas'],
       selectedRecommendationType: 'SingleProduct',
     };
 
-    const recommendations = recommendationService.getRecommendations(
+    const recommendations = await RecommendationService.getRecommendations(
       formData,
       mockProducts
     );
@@ -18,7 +18,7 @@ describe('recommendationService', () => {
     expect(recommendations[0].name).toBe('RD Conversas');
   });
 
-  test('Retorna recomendações corretas para MultipleProducts com base nas preferências selecionadas', () => {
+  test('Retorna recomendações corretas para MultipleProducts com base nas preferências selecionadas', async () => {
     const formData = {
       selectedPreferences: [
         'Integração fácil com ferramentas de e-mail',
@@ -32,7 +32,7 @@ describe('recommendationService', () => {
       selectedRecommendationType: 'MultipleProducts',
     };
 
-    const recommendations = recommendationService.getRecommendations(
+    const recommendations = await RecommendationService.getRecommendations(
       formData,
       mockProducts
     );
@@ -44,7 +44,7 @@ describe('recommendationService', () => {
     ]);
   });
 
-  test('Retorna apenas um produto para SingleProduct com mais de um produto de match', () => {
+  test('Retorna apenas um produto para SingleProduct com mais de um produto de match', async () => {
     const formData = {
       selectedPreferences: [
         'Integração fácil com ferramentas de e-mail',
@@ -57,7 +57,7 @@ describe('recommendationService', () => {
       selectedRecommendationType: 'SingleProduct',
     };
 
-    const recommendations = recommendationService.getRecommendations(
+    const recommendations = await RecommendationService.getRecommendations(
       formData,
       mockProducts
     );
@@ -66,7 +66,7 @@ describe('recommendationService', () => {
     expect(recommendations[0].name).toBe('RD Station Marketing');
   });
 
-  test('Retorna o último match em caso de empate para SingleProduct', () => {
+  test('Retorna o último match em caso de empate para SingleProduct', async () => {
     const formData = {
       selectedPreferences: [
         'Automação de marketing',
@@ -76,7 +76,7 @@ describe('recommendationService', () => {
       selectedRecommendationType: 'SingleProduct',
     };
 
-    const recommendations = recommendationService.getRecommendations(
+    const recommendations = await RecommendationService.getRecommendations(
       formData,
       mockProducts
     );
