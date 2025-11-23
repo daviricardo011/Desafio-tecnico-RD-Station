@@ -1,30 +1,30 @@
-import React from 'react';
-import Checkbox from '../../shared/Checkbox';
+import { Checkbox } from '../../shared/Checkbox';
+import { SectionWrapper } from '../../Containers/SectionWrapper';
 
-function RecommendationType({ onRecommendationTypeChange }) {
+const options = [
+  { label: 'Produto Único', value: 'SingleProduct' },
+  { label: 'Múltiplos Produtos', value: 'MultipleProducts' },
+];
+
+export function RecommendationType({ onRecommendationTypeChange, hasError }) {
   return (
-    <div className="mb-4">
-      <h2 className="text-lg font-bold mb-2">Tipo de Recomendação:</h2>
-      <div className="flex items-center">
-        <Checkbox
-          type="radio"
-          name="recommendationType"
-          value="SingleProduct"
-          onChange={() => onRecommendationTypeChange('SingleProduct')}
-          className="mr-2"
-        />
-        <label htmlFor="SingleProduct" className="mr-4">Produto Único</label>
-        <Checkbox
-          type="radio"
-          name="recommendationType"
-          value="MultipleProducts"
-          onChange={() => onRecommendationTypeChange('MultipleProducts')}
-          className="mr-2"
-        />
-        <label htmlFor="MultipleProducts">Múltiplos Produtos</label>
+    <SectionWrapper title="Tipo de Recomendação:" hasError={hasError}>
+      <div className="flex items-left gap-4 flex-col md:flex-row">
+        {options.map((opt) => (
+          <Checkbox
+            type="radio"
+            name="recommendationType"
+            value={opt.value}
+            onChange={() => onRecommendationTypeChange(opt.value)}
+            key={opt.value}
+          >
+            {opt.label}
+          </Checkbox>
+        ))}
       </div>
-    </div>
+      {hasError && (
+        <p className="text-red-500 text-sm mt-1 font-bold">Campo obrigatório</p>
+      )}
+    </SectionWrapper>
   );
 }
-
-export default RecommendationType;

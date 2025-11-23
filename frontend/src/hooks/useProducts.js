@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
-import getProducts from '../services/product.service';
+import { ProductsService } from '../services/product.service';
 
-const useProducts = () => {
+export const useProducts = () => {
   const [preferences, setPreferences] = useState([]);
   const [features, setFeatures] = useState([]);
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const products = await getProducts();
+        setIsLoading(true);
+        setError(null);
+        const products = await ProductsService.getProducts();
         const allPreferences = [];
         const allFeatures = [];
 
@@ -30,14 +34,14 @@ const useProducts = () => {
         setPreferences(allPreferences);
         setFeatures(allFeatures);
       } catch (error) {
-        console.error('Erro ao obter os produtos:', error);
+        setError(error.message || 'Não foi possível carregar os dados.');
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  return { preferences, features, products };
+  return { preferences, features, products, isLoading, error };
 };
-
-export default useProducts;

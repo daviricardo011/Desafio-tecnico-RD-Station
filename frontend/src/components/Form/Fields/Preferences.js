@@ -1,14 +1,14 @@
-// Preferences.js
+import { useState } from 'react';
+import { Checkbox } from '../../shared/Checkbox';
+import { SectionWrapper } from '../../Containers/SectionWrapper';
 
-import React, { useState } from 'react';
-import Checkbox from '../../shared/Checkbox';
-
-function Preferences({
+export function Preferences({
   preferences,
   selectedPreferences = [],
   onPreferenceChange,
 }) {
-  const [currentPreferences, setCurrentPreferences] = useState(selectedPreferences)
+  const [currentPreferences, setCurrentPreferences] =
+    useState(selectedPreferences);
 
   const handlePreferenceChange = (preference) => {
     const updatedPreferences = currentPreferences.includes(preference)
@@ -20,11 +20,10 @@ function Preferences({
   };
 
   return (
-    <div className="mb-4">
-      <h2 className="text-lg font-bold mb-2">Preferências:</h2>
-      <ul>
+    <SectionWrapper title="Preferências:">
+      <ul className="space-y-2">
         {preferences.map((preference, index) => (
-          <li key={index} className="mb-2">
+          <li key={index}>
             <Checkbox
               value={preference}
               checked={currentPreferences.includes(preference)}
@@ -36,8 +35,6 @@ function Preferences({
           </li>
         ))}
       </ul>
-    </div>
+    </SectionWrapper>
   );
 }
-
-export default Preferences;

@@ -1,12 +1,13 @@
-import React from 'react';
-
-function Checkbox({ children, ...props }) {
+export function Checkbox({ children, type = 'checkbox', ...props }) {
   return (
-    <label className="flex items-center">
-      <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-500" {...props} />
-      <span className="ml-2">{children}</span>
+    <label
+      className="flex items-center group cursor-pointer select-none
+                 text-gray-700 hover:text-blue-600
+                 transition duration-150 ease-in-out"
+    >
+      <input type={type} {...props} />
+
+      <span className="ml-2 text-base font-medium">{children}</span>
     </label>
   );
 }
-
-export default Checkbox;
