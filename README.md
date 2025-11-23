@@ -71,7 +71,7 @@ Para completar este teste, você deve concentrar-se principalmente em três arqu
 
 1. Clone o repositório: `git clone <URL_DO_REPOSITORIO>`
 2. Instale as dependências: `yarn install`
-3. Para instalar o projeto, execute o script `./install.sh` 
+3. Para instalar o projeto, execute o script `./install.sh`
 4. Inicie a aplicação: `yarn start`
 
 ### Scripts Disponíveis
@@ -80,6 +80,7 @@ Para completar este teste, você deve concentrar-se principalmente em três arqu
 - `start:frontend`: Inicia apenas a parte frontend da aplicação em modo de desenvolvimento.
 - `start:backend`: Inicia apenas a parte backend da aplicação em modo de desenvolvimento.
 - `dev`: Inicia simultaneamente a parte frontend e backend da aplicação em modo de desenvolvimento.
+- `yarn test`: Executa todos os testes unitários do Front-End (Service, Hooks e Componentes)
 
 ## Critérios de Aceite
 
@@ -93,10 +94,40 @@ Para completar este teste, você deve concentrar-se principalmente em três arqu
 
 Certifique-se de que todos os critérios de aceite são atendidos durante o desenvolvimento do projeto.
 
+## Visão Geral da Arquitetura Implementada
+
+A solução foi estruturada para garantir a estabilidade do estado, performance e testabilidade:
+
+1.  **Separação de Camadas:**
+
+    - **Data Layer (`product.service.js`):** Único responsável por realizar chamadas assíncronas (`axios`) à API (`json-server`) e tratar erros de rede.
+    - **Regras de negócio (`recommendation.service.js`):** Focado apenas na lógica de filtragem. Isso garante velocidade de execução máxima após o carregamento inicial dos dados.
+
+2.  **Gerenciamento de Estado (Hooks):**
+
+    - **useProducts:** Hook responsável por gerenciar a integração com a API, o loading inicial e o erros relacionados.
+    - **useRecommendations:** Hook que gerencia o estado contextual (`isLoadingRecommendations`, `recommendations`), isolando a preocupação de UX da lógica pura.
+
+3.  **UI e Componentização:**
+
+    - Componentes de Apresentação (ex: `Form`, `RecommendationList`) são desacoplados dos dados.
+    - Implementação de validação de formulário (campo obrigatório) e tratamento de estados de `isLoading` e `error` em nível de componente e tela.
+
+4.  **Testes e Robustez:**
+    - **Testes Unitários Abrangentes** cobrem Services (100% da lógica de negócio), Helpers (cobertura algorítmica) e Hooks (gestão de estado assíncrono e fluxo de dados).
+
+## Cobertura de Testes e Scripts
+
+Todos os requisitos funcionais e critérios de aceite foram cobertos por testes unitários e de integração (simulada por mocks).
+
 ## Autor
 
-Desenvolvido por [Seu Nome]
+Desenvolvido por Equipe RD Station e Davi Ricardo Inocêncio dos Santos
 
 ## Licença
 
 Este projeto está licenciado sob a [Licença MIT](LICENSE).
+
+```
+
+```

@@ -1,4 +1,5 @@
 import { RecommendationService } from './recommendation.service.js';
+import { matchesFilter, calculateScore } from './recommendation.helpers.js';
 import { mockProducts } from '../mocks/mockProducts.js';
 
 describe('RecommendationService', () => {
@@ -132,5 +133,66 @@ describe('RecommendationService', () => {
 
     expect(recommendations).toHaveLength(0);
     expect(recommendations).toEqual([]);
+  });
+});
+
+describe('Recommendation Helpers (Filtro)', () => {
+  const mockProduct = {
+    preferences: ['P1', 'P2', 'P3'],
+    features: ['F1', 'F2', 'F3'],
+  };
+
+  test('Deve retornar TRUE se o produto tiver pelo menos uma Preferência E uma Feature (OR + OR)', () => {
+    expect(matchesFilter(mockProduct, ['P2'], ['F3'])).toBe(true);
+  });
+
+  test('Deve retornar TRUE se apenas Features forem selecionadas e houver match', () => {
+    expect(matchesFilter(mockProduct, [], ['F1'])).toBe(true);
+  });
+
+  test('Deve retornar TRUE se apenas Preferências forem selecionadas e houver match', () => {
+    expect(matchesFilter(mockProduct, ['P3'], [])).toBe(true);
+  });
+
+  test('Deve retornar FALSE se houver match na preferência mas falha na feature', () => {
+    expect(matchesFilter(mockProduct, ['P1'], ['F99'])).toBe(false);
+  });
+
+  test('Deve retornar FALSE se houver match na feature mas falha na preferência', () => {
+    expect(matchesFilter(mockProduct, ['P99'], ['F1'])).toBe(false);
+  });
+
+  test('Deve calcular a pontuação corretamente (2 preferências + 1 feature = 3)', () => {
+    const selectedPreferences = ['P1', 'P3', 'P99'];
+    const selectedFeatures = ['F1', 'F99'];
+
+    const score = calculateScore(
+      mockProduct,
+      selectedPreferences,
+      selectedFeatures
+    );
+    expect(score).toBe(3);
+  });
+
+  test('Deve retornar 0 se não houver match nas preferências e features', () => {
+    const selectedPreferences = ['P98', 'P99'];
+    const selectedFeatures = ['F98'];
+    const score = calculateScore(
+      mockProduct,
+      selectedPreferences,
+      selectedFeatures
+    );
+    expect(score).toBe(0);
+  });
+
+  test('Deve retornar 0 se as listas de seleção estiverem vazias', () => {
+    const selectedPreferences = [];
+    const selectedFeatures = [];
+    const score = calculateScore(
+      mockProduct,
+      selectedPreferences,
+      selectedFeatures
+    );
+    expect(score).toBe(0);
   });
 });
