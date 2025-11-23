@@ -1,8 +1,7 @@
-import { delay } from '../utils';
 import { matchesFilter, calculateScore } from './recommendation.helpers';
 
 export const RecommendationService = {
-  async getRecommendations(
+  getRecommendations(
     formData = {
       selectedRecommendationType: '',
       selectedPreferences: [],
@@ -10,8 +9,6 @@ export const RecommendationService = {
     },
     products
   ) {
-    await delay();
-
     if (!products || products.length === 0) {
       return [];
     }

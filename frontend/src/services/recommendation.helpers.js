@@ -1,11 +1,11 @@
+const countMatches = (selected = [], productList = []) =>
+  selected.filter((item) => productList.includes(item)).length;
+
 export const calculateScore = (
   product,
   selectedPreferences,
   selectedFeatures
 ) => {
-  const countMatches = (selected = [], productList = []) =>
-    selected.filter((item) => productList.includes(item)).length;
-
   return (
     countMatches(selectedPreferences, product.preferences) +
     countMatches(selectedFeatures, product.features)

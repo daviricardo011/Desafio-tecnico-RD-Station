@@ -3,7 +3,6 @@ import { RecommendationList } from './components/RecommendationList/Recommendati
 import { useRecommendations } from './hooks/useRecommendations';
 import { useProducts } from './hooks/useProducts';
 import { Loader } from './components/shared/Loader';
-import { ErrorMessage } from './components/shared/ErrorMessage';
 import { Divisor } from './components/shared/Divider';
 
 function App() {
@@ -50,33 +49,18 @@ function App() {
             <Loader text="Carregando dados de produtos..." />
           ) : (
             <>
-              <div>
-                {errorProducts ? (
-                  <ErrorMessage
-                    message={`Erro ao buscar produtos: ${errorProducts}`}
-                  />
-                ) : (
-                  <Form
-                    handleGetRecommendations={handleGetRecommendations}
-                    preferences={preferences}
-                    features={features}
-                    isLoadingRecommendations={isLoadingRecommendations}
-                    errorRecommendations={errorRecommendations}
-                  />
-                )}
-              </div>
-              <div className="pt-4 md:pt-0">
-                {errorRecommendations ? (
-                  <ErrorMessage
-                    message={`Erro ao buscar recomendações: ${errorRecommendations}`}
-                  />
-                ) : (
-                  <RecommendationList
-                    recommendations={recommendations}
-                    isLoading={isLoadingRecommendations}
-                  />
-                )}
-              </div>
+              <Form
+                handleGetRecommendations={handleGetRecommendations}
+                preferences={preferences}
+                features={features}
+                isLoadingRecommendations={isLoadingRecommendations}
+                errorProducts={errorProducts}
+              />
+              <RecommendationList
+                recommendations={recommendations}
+                isLoading={isLoadingRecommendations}
+                errorRecommendations={errorRecommendations}
+              />
             </>
           )}
         </div>

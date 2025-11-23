@@ -3,12 +3,14 @@ import { Preferences, Features, RecommendationType } from './Fields';
 import { SubmitButton } from './SubmitButton';
 import { useForm } from '../../hooks/useForm';
 import { Divisor } from '../shared/Divider';
+import { ErrorMessage } from '../shared/ErrorMessage';
 
 export function Form({
   handleGetRecommendations,
   preferences,
   features,
   isLoadingRecommendations,
+  errorProducts,
 }) {
   const [isTypeMissing, setIsTypeMissing] = useState(false);
   const { formData, handleChange } = useForm({
@@ -27,6 +29,12 @@ export function Form({
     setIsTypeMissing(false);
     handleGetRecommendations(formData);
   };
+
+  if (errorProducts) {
+    return (
+      <ErrorMessage message={`Erro ao buscar produtos: ${errorProducts}`} />
+    );
+  }
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
